@@ -9,20 +9,21 @@
   <title>柽宝个人教程站</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
   <style>
-    /* 侧边栏顶部搜索框 */
+    /* 侧边栏搜索框：紧贴标题，最小间距 */
     .sidebar-search {
-      padding: 10px 15px;
+      padding: 3px 15px 6px 15px;
       border-bottom: 1px solid #eee;
+      margin-top: 0;
     }
     .sidebar-search input {
       width: 100%;
-      padding: 6px 8px;
+      padding: 4px 8px;
       border: 1px solid #ddd;
       border-radius: 4px;
       outline: none;
       font-size: 14px;
     }
-    /* 隐藏搜索不到的菜单 */
+    /* 隐藏搜索不匹配的菜单 */
     .sidebar-nav li.hide-item {
       display: none !important;
     }
@@ -35,14 +36,12 @@
     window.$docsify = {
       name: '柽宝个人教程站',
       nameLink: '/',
-      // 开启返回顶部按钮（滚动右下角出现）
-      auto2top: true,
-      // 开启侧边栏
+      // 已移除返回顶部（删除auto2top配置）
       loadSidebar: true,
       maxLevel: 3,
       subMaxLevel: 1,
 
-      // 文章自动更新，提交即刷新
+      // 保留文章自动更新，提交即刷新
       requestHeaders: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache'
@@ -53,18 +52,17 @@
     }
   </script>
 
-  <!-- 核心 JS + 图片放大插件 -->
+  <!-- 仅保留核心JS，已移除图片放大插件 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
 
   <script>
-    // 侧边栏顶部插入搜索框（只搜标题）
+    // 纯原生侧边栏标题搜索（无任何第三方插件）
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) return;
 
-        // 新建搜索框
+        // 插入搜索框到侧边栏最顶部
         const searchHtml = `
           <div class="sidebar-search">
             <input type="text" id="titleSearch" placeholder="搜索标题..." oninput="searchTitle()">
@@ -74,7 +72,7 @@
       }, 600);
     });
 
-    // 只搜索侧边栏标题
+    // 仅搜索侧边栏标题，不检索正文
     function searchTitle() {
       const kw = document.getElementById('titleSearch').value.trim().toLowerCase();
       const items = document.querySelectorAll('.sidebar-nav li');
