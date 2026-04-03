@@ -9,14 +9,26 @@
   <title>柽宝个人教程站</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
   <style>
-    /* 仿飞书整体布局：左右分栏，极简无多余空白 */
+    /* ========== 核心：彻底清除顶部大空白 ========== */
+    body {
+      margin: 0;
+      padding: 0;
+    }
     .sidebar {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
       background: #f8f9fa;
       border-right: 1px solid #e5e6eb;
     }
-    /* 飞书风格搜索框：紧贴顶部，零多余空白，窄高紧凑 */
+    .content {
+      padding-top: 10px !important;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ========== 仿飞书紧凑搜索框 ========== */
     .sidebar-search {
-      padding: 2px 12px 4px 12px;
+      padding: 0px 12px 2px 12px;
       border-bottom: 1px solid #e5e6eb;
       margin-top: 0;
       background: #f8f9fa;
@@ -31,19 +43,21 @@
       font-size: 13px;
       background: #fff;
     }
-    /* 飞书风格菜单：无多余间距，紧凑整洁 */
+
+    /* ========== 压缩标题间距，极致紧凑 ========== */
+    .sidebar h1, .sidebar .app-name {
+      margin: 0 !important;
+      padding: 2px 12px 4px 12px !important;
+      line-height: 1.2 !important;
+    }
+
+    /* ========== 搜索功能样式 ========== */
     .sidebar-nav li {
       margin: 0;
       padding: 4px 12px;
     }
     .sidebar-nav li.hide-item {
       display: none !important;
-    }
-    /* 右侧内容区：仿飞书干净留白，无冗余空白 */
-    .content {
-      padding: 20px 30px;
-      max-width: 960px;
-      margin: 0 auto;
     }
   </style>
 </head>
@@ -58,7 +72,7 @@
       maxLevel: 2,
       subMaxLevel: 0,
 
-      // 文章自动更新，提交即刷新
+      // 保留文章自动更新，提交即刷新
       requestHeaders: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache'
@@ -69,11 +83,11 @@
     }
   </script>
 
-  <!-- 仅保留docsify核心，无任何多余插件 -->
+  <!-- 仅保留核心JS，无多余插件 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
 
   <script>
-    // 仿飞书侧边栏顶部搜索框（仅搜标题，原生无插件）
+    // 纯原生侧边栏标题搜索（无插件）
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const sidebar = document.querySelector('.sidebar');
@@ -88,7 +102,7 @@
       }, 500);
     });
 
-    // 侧边栏标题搜索
+    // 标题搜索逻辑
     function searchTitle() {
       const kw = document.getElementById('titleSearch').value.trim().toLowerCase();
       const items = document.querySelectorAll('.sidebar-nav li');
@@ -100,6 +114,11 @@
         } else {
           item.classList.add('hide-item');
         }
+      });
+    }
+  </script>
+</body>
+</html>
       });
     }
   </script>
