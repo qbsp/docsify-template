@@ -9,23 +9,41 @@
   <title>柽宝个人教程站</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
   <style>
-    /* 侧边栏搜索框：紧贴标题，最小间距 */
+    /* 仿飞书整体布局：左右分栏，极简无多余空白 */
+    .sidebar {
+      background: #f8f9fa;
+      border-right: 1px solid #e5e6eb;
+    }
+    /* 飞书风格搜索框：紧贴顶部，零多余空白，窄高紧凑 */
     .sidebar-search {
-      padding: 0px 15px 3px 15px;
-      border-bottom: 1px solid #eee;
+      padding: 2px 12px 4px 12px;
+      border-bottom: 1px solid #e5e6eb;
       margin-top: 0;
+      background: #f8f9fa;
     }
     .sidebar-search input {
       width: 100%;
-      padding: 2px 8px;
-      border: 1px solid #ddd;
+      height: 28px;
+      padding: 0 8px;
+      border: 1px solid #e5e6eb;
       border-radius: 4px;
       outline: none;
-      font-size: 14px;
+      font-size: 13px;
+      background: #fff;
     }
-    /* 隐藏搜索不匹配的菜单 */
+    /* 飞书风格菜单：无多余间距，紧凑整洁 */
+    .sidebar-nav li {
+      margin: 0;
+      padding: 4px 12px;
+    }
     .sidebar-nav li.hide-item {
       display: none !important;
+    }
+    /* 右侧内容区：仿飞书干净留白，无冗余空白 */
+    .content {
+      padding: 20px 30px;
+      max-width: 960px;
+      margin: 0 auto;
     }
   </style>
 </head>
@@ -36,12 +54,11 @@
     window.$docsify = {
       name: '柽宝个人教程站',
       nameLink: '/',
-      // 已移除返回顶部（删除auto2top配置）
       loadSidebar: true,
-      maxLevel: 3,
-      subMaxLevel: 1,
+      maxLevel: 2,
+      subMaxLevel: 0,
 
-      // 保留文章自动更新，提交即刷新
+      // 文章自动更新，提交即刷新
       requestHeaders: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache'
@@ -52,27 +69,26 @@
     }
   </script>
 
-  <!-- 仅保留核心JS，已移除图片放大插件 -->
+  <!-- 仅保留docsify核心，无任何多余插件 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
 
   <script>
-    // 纯原生侧边栏标题搜索（无任何第三方插件）
+    // 仿飞书侧边栏顶部搜索框（仅搜标题，原生无插件）
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) return;
 
-        // 插入搜索框到侧边栏最顶部
         const searchHtml = `
           <div class="sidebar-search">
-            <input type="text" id="titleSearch" placeholder="搜索标题..." oninput="searchTitle()">
+            <input type="text" id="titleSearch" placeholder="搜索文档标题..." oninput="searchTitle()">
           </div>
         `;
         sidebar.insertAdjacentHTML('afterbegin', searchHtml);
-      }, 600);
+      }, 500);
     });
 
-    // 仅搜索侧边栏标题，不检索正文
+    // 侧边栏标题搜索
     function searchTitle() {
       const kw = document.getElementById('titleSearch').value.trim().toLowerCase();
       const items = document.querySelectorAll('.sidebar-nav li');
