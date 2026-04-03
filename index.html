@@ -1,62 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
-  <!-- 强制禁止浏览器缓存，彻底解决更新后不显示最新内容的问题 -->
+  <!-- 强制主页面不缓存，保证更新立刻生效 -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <!-- 网站标题（浏览器标签栏显示的文字） -->
   <title>柽宝个人教程站</title>
-  <!-- 网站描述（搜索引擎收录用，可自行修改双引号里的内容） -->
+  <!-- 网站描述（搜索引擎收录用，可直接修改双引号里的内容） -->
   <meta name="description" content="柽宝的原创教程分享平台，分享系统实操、网站搭建、实用工具、技术避坑指南等新手友好的干货内容。">
-  <!-- 网站主题核心CSS：动态时间戳，无需手动改版本号，每次打开自动加载最新资源 -->
-  <script>
-    document.write('<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css?t=' + new Date().getTime() + '">');
-  </script>
-  <!-- 网站标签栏图标：后续你做好favicon.ico上传到仓库后，删掉这行开头和结尾的注释符号即可生效 -->
+  <!-- 网站主题CSS：国内字节CDN，固定稳定版本，浏览器长期缓存，大幅提速 -->
+  <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-y/docsify@4.13.1/lib/themes/vue.css">
+  <!-- 网站标签栏图标：后续你做好favicon.ico上传到仓库后，删掉这行开头和结尾的<!-- 和 -->即可生效 -->
   <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
 </head>
-
 <body>
   <div id="app"></div>
 
   <script>
-    // Docsify Configuration (see https://docsify.js.org/#/configuration)
+    // Docsify 核心配置，所有原有功能全部保留
     window.$docsify = {
-      name: '柽宝的个人网站',
-
-      // Sidebar Configuration
+      // 网站左上角显示的标题
+      name: '柽宝个人教程站',
+      // 点击左上角标题，自动跳回首页
+      nameLink: '/',
+      // 侧边栏配置
       auto2top: true,
       loadSidebar: true,
       maxLevel: 0,
-      // Set subMaxLevel to 0 to remove automatic display of page table of contents (TOC) in Sidebar
       subMaxLevel: 0,
-
-      // Search Plugin Configuration
+      // 中文搜索配置
       search: {
         placeholder: '输入关键词搜索',
         noData: '没有找到相关内容',
-        // Headline depth, 1 - 6
-        depth: 2,
+        depth: 2
+      },
+      // ========== 核心配置：保证文章更新立刻生效，更新频率完全不变 ==========
+      // 给文章请求加强制不缓存头，每次都拉取最新内容
+      requestHeaders: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      },
+      // 给所有文章链接加动态时间戳，彻底杜绝文章缓存
+      alias: {
+        '/.*/.md': (path) => `${path}?t=${new Date().getTime()}`
       }
-    };
+    }
   </script>
 
- <!-- Required 核心JS：动态时间戳，自动加载最新版本，无需手动修改 -->
-<script>
-  document.write('<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js?t=' + new Date().getTime() + '"><\/script>');
-</script>
-
-<!-- Recommended 插件JS：同样添加动态时间戳，彻底解决缓存问题 -->
-<script>
-  document.write('<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js?t=' + new Date().getTime() + '"><\/script>');
-</script>
-<script>
-  document.write('<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js?t=' + new Date().getTime() + '"><\/script>');
-</script>
-
+  <!-- 核心运行JS：国内字节CDN，固定稳定版本，浏览器长期缓存，大幅提速 -->
+  <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-y/docsify@4.13.1/lib/docsify.min.js"></script>
+  <!-- 图片放大插件JS -->
+  <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-y/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
+  <!-- 搜索插件JS -->
+  <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-y/docsify@4.13.1/lib/plugins/search.min.js"></script>
 </body>
 </html>
