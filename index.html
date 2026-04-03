@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 强制主页面不缓存，保证更新立刻生效 -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>柽宝个人教程站</title>
-  <meta name="description" content="柽宝的原创教程分享平台，分享系统实操、网站搭建、实用工具、技术避坑指南等新手友好的干货内容。">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
 </head>
 <body>
@@ -16,35 +14,34 @@
 
   <script>
     window.$docsify = {
-      // 网站基础配置
       name: '柽宝个人教程站',
       nameLink: '/',
       auto2top: true,
       loadSidebar: true,
       maxLevel: 0,
       subMaxLevel: 0,
-      // 中文搜索配置
-      search: {
+      // 全文搜索配置（标题+正文都能搜）
+      fullTextSearch: {
         placeholder: '输入关键词搜索',
-        noData: '没有找到相关内容',
-        depth: 2
+        noData: '未找到相关内容',
+        depth: 6
       },
-      // 核心配置：提交新内容立刻生效，更新频率完全不变
+      // 提交新文章自动刷新，不改变更新频率
       requestHeaders: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache'
       },
       alias: {
-        '/.*/.md': (path) => `${path}?t=${new Date().getTime()}`
+        '/.*/.md': path => `${path}?t=${new Date().getTime()}`
       }
     }
   </script>
 
-  <!-- 网站核心运行JS -->
+  <!-- Docsify 核心 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
-  <!-- 图片放大插件 -->
+  <!-- 图片放大 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
-  <!-- 搜索插件 -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/search.min.js"></script>
+  <!-- 真正的全文搜索插件（替换官方搜索，支持搜正文） -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-fulltext-search@1.1.0/dist/docsify-fulltext-search.min.js"></script>
 </body>
 </html>
