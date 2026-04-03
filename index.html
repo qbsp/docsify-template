@@ -8,40 +8,123 @@
   <meta http-equiv="Expires" content="0">
   <title>柽宝个人教程站</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
+  <style>
+    /* 手写搜索框，不遮挡侧边栏+内容 */
+    .custom-search{
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+    }
+    .custom-search input{
+      padding: 6px 12px;
+      width: 200px;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      outline: none;
+    }
+    .search-result{
+      margin-top: 70px;
+      padding: 0 20px;
+      display: none;
+    }
+    .result-item{
+      padding: 10px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .result-item a{
+      color: #42b983;
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body>
+  <!-- 手写原生搜索框 -->
+  <div class="custom-search">
+    <input type="text" id="searchInput" placeholder="搜索全文内容" oninput="runSearch()">
+  </div>
+  <div id="searchResult" class="search-result"></div>
+
+  <!-- docsify核心渲染区域 -->
   <div id="app"></div>
 
   <script>
+    // docsify核心配置（侧边栏+返回顶部+自动更新）
     window.$docsify = {
       name: '柽宝个人教程站',
       nameLink: '/',
-      auto2top: true,
-      loadSidebar: true,
-      maxLevel: 0,
-      subMaxLevel: 0,
-      // 全文搜索配置（标题+正文都能搜）
-      fullTextSearch: {
-        placeholder: '输入关键词搜索',
-        noData: '未找到相关内容',
-        depth: 6
-      },
-      // 提交新文章自动刷新，不改变更新频率
+      auto2top: true,    // 返回顶部
+      loadSidebar: true, // 侧边栏开启
+      maxLevel: 3,
+      subMaxLevel: 1,
+      
+      // 强制文章自动刷新
       requestHeaders: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache'
       },
       alias: {
-        '/.*/.md': path => `${path}?t=${new Date().getTime()}`
+        '/.*/.md': path => `${path}?t=${Date.now()}`
       }
     }
   </script>
 
-  <!-- Docsify 核心 -->
+  <!-- docsify核心 + 图片放大（原生自带，非额外插件） -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
-  <!-- 图片放大 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
-  <!-- 真正的全文搜索插件（替换官方搜索，支持搜正文） -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify-fulltext-search@1.1.0/dist/docsify-fulltext-search.min.js"></script>
+
+  <script>
+    // ====================== 纯原生JS搜索（无任何插件）======================
+    let pageList = [];
+    let loaded = false;
+
+    // 加载侧边栏所有页面
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(async () => {
+        try {
+          const res = await fetch(`/_sidebar.md?t=${Date.now()}`);
+          const txt = await res.text();
+          const reg = /\[(.*?)\]\((.*?\.md)\)/g;
+          let m;
+          while((m = reg.exec(txt)) !== null){
+            pageList.push({ title: m[1], path: m[2] });
+          }
+          loaded = true;
+        } catch(e){}
+      }, 700);
+    });
+
+    // 搜索执行
+    async function runSearch(){
+      const kw = document.getElementById('searchInput').value.trim();
+      const resBox = document.getElementById('searchResult');
+      const contentBox = document.querySelector('.content');
+
+      if(!kw){
+        resBox.style.display = 'none';
+        if(contentBox) contentBox.style.display = 'block';
+        return;
+      }
+
+      resBox.style.display = 'block';
+      if(contentBox) contentBox.style.display = 'none';
+      if(!loaded) return;
+
+      let result = [];
+      for(let p of pageList){
+        try {
+          const r = await fetch(`${p.path}?t=${Date.now()}`);
+          const c = await r.text();
+          if(c.includes(kw) || p.title.includes(kw)){
+            result.push(`<div class="result-item"><a href="${p.path}">${p.title}</a></div>`);
+          }
+        } catch(e){}
+      }
+
+      resBox.innerHTML = result.length 
+        ? result.join('') 
+        : '<div style="padding:10px;">未找到相关内容</div>';
+    }
+  </script>
 </body>
 </html>
