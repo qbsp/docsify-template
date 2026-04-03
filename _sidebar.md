@@ -1,3 +1,2 @@
 - [关于作者](README)
-- [测试](second-page)
-- [测试1](3-page)
+- [友情链接](second-page)
