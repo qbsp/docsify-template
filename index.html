@@ -9,56 +9,40 @@
   <title>柽宝个人教程站</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
   <style>
-    /* 手写搜索框，不遮挡侧边栏+内容 */
-    .custom-search{
-      position: fixed;
-      top: 15px;
-      right: 20px;
-      z-index: 1000;
+    /* 侧边栏顶部搜索框 */
+    .sidebar-search {
+      padding: 10px 15px;
+      border-bottom: 1px solid #eee;
     }
-    .custom-search input{
-      padding: 6px 12px;
-      width: 200px;
-      border: 1px solid #eee;
+    .sidebar-search input {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #ddd;
       border-radius: 4px;
       outline: none;
+      font-size: 14px;
     }
-    .search-result{
-      margin-top: 70px;
-      padding: 0 20px;
-      display: none;
-    }
-    .result-item{
-      padding: 10px 0;
-      border-bottom: 1px solid #f5f5f5;
-    }
-    .result-item a{
-      color: #42b983;
-      font-weight: 500;
+    /* 隐藏搜索不到的菜单 */
+    .sidebar-nav li.hide-item {
+      display: none !important;
     }
   </style>
 </head>
 <body>
-  <!-- 手写原生搜索框 -->
-  <div class="custom-search">
-    <input type="text" id="searchInput" placeholder="搜索全文内容" oninput="runSearch()">
-  </div>
-  <div id="searchResult" class="search-result"></div>
-
-  <!-- docsify核心渲染区域 -->
   <div id="app"></div>
 
   <script>
-    // docsify核心配置（侧边栏+返回顶部+自动更新）
     window.$docsify = {
       name: '柽宝个人教程站',
       nameLink: '/',
-      auto2top: true,    // 返回顶部
-      loadSidebar: true, // 侧边栏开启
+      // 开启返回顶部按钮（滚动右下角出现）
+      auto2top: true,
+      // 开启侧边栏
+      loadSidebar: true,
       maxLevel: 3,
       subMaxLevel: 1,
-      
-      // 强制文章自动刷新
+
+      // 文章自动更新，提交即刷新
       requestHeaders: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache'
@@ -69,61 +53,40 @@
     }
   </script>
 
-  <!-- docsify核心 + 图片放大（原生自带，非额外插件） -->
+  <!-- 核心 JS + 图片放大插件 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
 
   <script>
-    // ====================== 纯原生JS搜索（无任何插件）======================
-    let pageList = [];
-    let loaded = false;
-
-    // 加载侧边栏所有页面
+    // 侧边栏顶部插入搜索框（只搜标题）
     document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(async () => {
-        try {
-          const res = await fetch(`/_sidebar.md?t=${Date.now()}`);
-          const txt = await res.text();
-          const reg = /\[(.*?)\]\((.*?\.md)\)/g;
-          let m;
-          while((m = reg.exec(txt)) !== null){
-            pageList.push({ title: m[1], path: m[2] });
-          }
-          loaded = true;
-        } catch(e){}
-      }, 700);
+      setTimeout(() => {
+        const sidebar = document.querySelector('.sidebar');
+        if (!sidebar) return;
+
+        // 新建搜索框
+        const searchHtml = `
+          <div class="sidebar-search">
+            <input type="text" id="titleSearch" placeholder="搜索标题..." oninput="searchTitle()">
+          </div>
+        `;
+        sidebar.insertAdjacentHTML('afterbegin', searchHtml);
+      }, 600);
     });
 
-    // 搜索执行
-    async function runSearch(){
-      const kw = document.getElementById('searchInput').value.trim();
-      const resBox = document.getElementById('searchResult');
-      const contentBox = document.querySelector('.content');
+    // 只搜索侧边栏标题
+    function searchTitle() {
+      const kw = document.getElementById('titleSearch').value.trim().toLowerCase();
+      const items = document.querySelectorAll('.sidebar-nav li');
 
-      if(!kw){
-        resBox.style.display = 'none';
-        if(contentBox) contentBox.style.display = 'block';
-        return;
-      }
-
-      resBox.style.display = 'block';
-      if(contentBox) contentBox.style.display = 'none';
-      if(!loaded) return;
-
-      let result = [];
-      for(let p of pageList){
-        try {
-          const r = await fetch(`${p.path}?t=${Date.now()}`);
-          const c = await r.text();
-          if(c.includes(kw) || p.title.includes(kw)){
-            result.push(`<div class="result-item"><a href="${p.path}">${p.title}</a></div>`);
-          }
-        } catch(e){}
-      }
-
-      resBox.innerHTML = result.length 
-        ? result.join('') 
-        : '<div style="padding:10px;">未找到相关内容</div>';
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (kw === '' || text.includes(kw)) {
+          item.classList.remove('hide-item');
+        } else {
+          item.classList.add('hide-item');
+        }
+      });
     }
   </script>
 </body>
