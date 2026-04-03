@@ -3,16 +3,21 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
-
-  <!-- Replace with your own title and description. -->
-  <title>Awesome Docsify Site</title>
-  <meta name="description" content="An awesome docsify site for publishing some content on the web.">
-
-  <!-- Default Theme (see https://docsify.js.org/#/themes) -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+  <!-- 强制禁止浏览器缓存，彻底解决更新后不显示最新内容的问题 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <!-- 网站标题（浏览器标签栏显示的文字） -->
+  <title>柽宝个人教程站</title>
+  <!-- 网站描述（搜索引擎收录用，可自行修改双引号里的内容） -->
+  <meta name="description" content="柽宝的原创教程分享平台，分享系统实操、网站搭建、实用工具、技术避坑指南等新手友好的干货内容。">
+  <!-- 网站主题核心CSS：动态时间戳，无需手动改版本号，每次打开自动加载最新资源 -->
+  <script>
+    document.write('<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css?t=' + new Date().getTime() + '">');
+  </script>
+  <!-- 网站标签栏图标：后续你做好favicon.ico上传到仓库后，删掉这行开头和结尾的注释符号即可生效 -->
+  <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
 </head>
 
 <body>
@@ -40,12 +45,18 @@
     };
   </script>
 
-  <!-- Required -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+ <!-- Required 核心JS：动态时间戳，自动加载最新版本，无需手动修改 -->
+<script>
+  document.write('<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js?t=' + new Date().getTime() + '"><\/script>');
+</script>
 
-  <!-- Recommended -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script>
+<!-- Recommended 插件JS：同样添加动态时间戳，彻底解决缓存问题 -->
+<script>
+  document.write('<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js?t=' + new Date().getTime() + '"><\/script>');
+</script>
+<script>
+  document.write('<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js?t=' + new Date().getTime() + '"><\/script>');
+</script>
 
 </body>
 </html>
