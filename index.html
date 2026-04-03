@@ -3,27 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 强制主页面不缓存，保证更新立刻生效 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>柽宝个人教程站</title>
-  <!-- 官方稳定CDN，不会出现加载失败的问题 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <meta name="description" content="柽宝的原创教程分享平台，分享系统实操、网站搭建、实用工具、技术避坑指南等新手友好的干货内容。">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
 </head>
 <body>
-  <!-- 这个div是页面渲染的核心，绝对不能删！之前的空白页大概率是不小心把它删了 -->
   <div id="app"></div>
 
   <script>
-    // 最基础的配置，零语法错误，保证页面能正常渲染
     window.$docsify = {
+      // 网站基础配置
       name: '柽宝个人教程站',
       nameLink: '/',
-      loadSidebar: true,
       auto2top: true,
+      loadSidebar: true,
       maxLevel: 0,
-      subMaxLevel: 0
+      subMaxLevel: 0,
+      // 中文搜索配置
+      search: {
+        placeholder: '输入关键词搜索',
+        noData: '没有找到相关内容',
+        depth: 2
+      },
+      // 核心配置：提交新内容立刻生效，更新频率完全不变
+      requestHeaders: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      },
+      alias: {
+        '/.*/.md': (path) => `${path}?t=${new Date().getTime()}`
+      }
     }
   </script>
 
-  <!-- 网站核心运行JS，官方稳定链接 -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <!-- 网站核心运行JS -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
+  <!-- 图片放大插件 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
+  <!-- 搜索插件 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/search.min.js"></script>
 </body>
 </html>
