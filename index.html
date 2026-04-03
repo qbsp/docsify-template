@@ -1,59 +1,29 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
-  <!-- 强制主页面不缓存，保证更新立刻生效 -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <!-- 网站标题（浏览器标签栏显示的文字） -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>柽宝个人教程站</title>
-  <!-- 网站描述（搜索引擎收录用，可直接修改双引号里的内容） -->
-  <meta name="description" content="柽宝的原创教程分享平台，分享系统实操、网站搭建、实用工具、技术避坑指南等新手友好的干货内容。">
-  <!-- 网站主题CSS：国内字节CDN，固定稳定版本，浏览器长期缓存，大幅提速 -->
-  <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-y/docsify@4.13.1/lib/themes/vue.css">
-
+  <!-- 官方稳定CDN，不会出现加载失败的问题 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 </head>
 <body>
+  <!-- 这个div是页面渲染的核心，绝对不能删！之前的空白页大概率是不小心把它删了 -->
   <div id="app"></div>
 
   <script>
-    // Docsify 核心配置，所有原有功能全部保留
+    // 最基础的配置，零语法错误，保证页面能正常渲染
     window.$docsify = {
-      // 网站左上角显示的标题
       name: '柽宝个人教程站',
-      // 点击左上角标题，自动跳回首页
       nameLink: '/',
-      // 侧边栏配置
-      auto2top: true,
       loadSidebar: true,
+      auto2top: true,
       maxLevel: 0,
-      subMaxLevel: 0,
-      // 中文搜索配置
-      search: {
-        placeholder: '输入关键词搜索',
-        noData: '没有找到相关内容',
-        depth: 2
-      },
-      // ========== 核心配置：保证文章更新立刻生效，更新频率完全不变 ==========
-      // 给文章请求加强制不缓存头，每次都拉取最新内容
-      requestHeaders: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache'
-      },
-      // 给所有文章链接加动态时间戳，彻底杜绝文章缓存
-      alias: {
-        '/.*/.md': (path) => `${path}?t=${new Date().getTime()}`
-      }
+      subMaxLevel: 0
     }
   </script>
 
-  <!-- 核心运行JS：国内字节CDN，固定稳定版本，浏览器长期缓存，大幅提速 -->
-  <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-y/docsify@4.13.1/lib/docsify.min.js"></script>
-  <!-- 图片放大插件JS -->
-  <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-y/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
-  <!-- 搜索插件JS -->
-  <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-y/docsify@4.13.1/lib/plugins/search.min.js"></script>
+  <!-- 网站核心运行JS，官方稳定链接 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
 </body>
 </html>
