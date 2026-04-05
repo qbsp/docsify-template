@@ -1,3 +1,3 @@
 - [关于作者](README)
 - [友情链接](second-page)
-- [couldflare vpn](third-page)
+- [couldflare vpn](3-page)
